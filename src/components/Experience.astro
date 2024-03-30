@@ -1,30 +1,83 @@
 ---
 import ExperienceItem from "./ExperienceItem.astro"
-const EXPERIENCIE = [
-  {
-    date: "Actualmente...",
-    title: "Creador de Contenido",
-    company: "Twitch",
-    description:
-      "Divulgo sobre programación y desarrollo web en diferentes plataformas. Galardonado como mejor creador de contenido de habla no-inglesa en 2022 y mejor comunidad en 2023 por GitHub.",
-    link: "https://twitch.tv/midudev",
-  },
-  {
-    date: "Septiembre 2022",
-    title: "Principal Frontend Engineer",
-    company: "Adevinta Spain",
-    description:
-      "Responsable de la plataforma, componentes y utilidades para la creación y desarrollo de aplicaciones web. Mejora de un 30% en la entrega de software. Implantación de medidas de integración continua y despliegue con A/B testing en más de 15 equipos.",
-  },
+const EXPERIENCE = [
+    {
+        date: "Jun 2023 - Present",
+        title: "Domain Architect",
+        company: "Saber.Tech",
+        description:
+            "Development of services for a lottery client. Creation of new microservices to enhance the functionality and performance of the platform and to replace a legacy monolithic application.",
+        link: "https://saber.tech",
+    },
+    {
+        date: "Aug 2020 - Jun 2023",
+        title: "Domain Architect",
+        company: "Ciklum",
+        description:
+            "Development of services for a lottery client. Creation of new microservices to enhance the functionality and performance of the platform and to replace a legacy monolithic application.",
+        link: "https://ciklum.com"
+    },
+    {
+        date: "Nov 2017 - Jul 2019",
+        title: "Lead software engineer",
+        company: "EPAM Systems",
+        description:
+            "Lead a team in the creation and maintenance of services that generate mortgages and real\n" +
+            "estate reports for a major company. Coordination of cross-functional teams to drive new releases, resolve issues and conduct investigations while ensuring smooth operation of these critical services.",
+        link: "https://epam.com",
+    },
+    {
+        date: "Nov 2017 - Jul 2019",
+        title: "Senior software developer",
+        company: "Ciklum",
+        description:
+            "Development of microservices for Thomas Cook, integrating Thomas Cook with Expedia services, maintaining and development of the search engine used by Thomas Cook (with Apache Solr).",
+        link: "https://ciklum.com"
+    },
+    {
+        date: "Apr 2015 - Nov 2017",
+        title: "Technical consultant",
+        company: "Hewlett-Packard Enterprise",
+        description:
+            "Technical consultant for Hewlett Packard Enterprise focused on development of solutions (RCS, SIP) for major telco companies (such as Telefonica, Vodafone...).",
+        link: "https://hpe.com"
+    },
+    {
+        date: "Mar 2014 - Jul 2015",
+        title: "Co-Founder and technical lead",
+        company: "Securekids",
+        description:
+            "Securekids is a parental control application to keep childrens safe on the internet. I was responsible for the development of the Android application",
+        link: "https://securekids.es/"
+    },
+    {
+        date: "Feb 2015 - Feb 2015",
+        title: "HP University 12th Edition participant",
+        company: "Hewlett-Packard",
+        description:
+            "I participated in the HP University Program, an intensive training initiative for talented young individuals.\n" +
+            "The selection process consisted on both group and individual tests and took into account passion for technology as well as the following skills: analytical abilities, great communication skills, to be customer focused, leadership, flexibility and the skill to adapt to changes and to work both in a team and autonomously.\n" +
+            "\n" +
+            "Successful candidates had the opportunity to become an employee for Hewlett-Packard.",
+        link: "https://www.hp.com/"
+    },
+    {
+        date: "Oct 2013 - Dec 2013",
+        title: "Android developer",
+        company: "Grupo ACT",
+        description:
+            "Android development for 'Malaga Funciona' application and others.",
+        link: "https://grupoact.com/"
+    },
 ]
 ---
 
 <ol class="relative mt-16">
-  {
-    EXPERIENCIE.map((experiencie) => (
-      <li class="">
-        <ExperienceItem {...experiencie} />
-      </li>
-    ))
-  }
+    {
+        EXPERIENCE.map((experience) => (
+                <li>
+                    <ExperienceItem {...experience}/>
+                </li>
+        ))
+    }
 </ol>
