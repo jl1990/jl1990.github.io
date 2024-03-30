@@ -51,10 +51,11 @@ const navItems = [
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           navItems.forEach((item) => {
+            const textClass = "text-yellow-500";
             if (item.getAttribute("aria-label") == entry.target.id) {
-              item.classList.add("text-yellow-500")
+              item.classList.add(textClass)
             } else {
-              item.classList.remove("text-yellow-500")
+              item.classList.remove(textClass)
             }
           })
         }
@@ -64,7 +65,7 @@ const navItems = [
     const observer = new IntersectionObserver(callback, {
       root: null,
       rootMargin: "0px",
-      threshold: 0.6,
+      threshold: 0.3,
     })
 
     sections.forEach((section) => {
