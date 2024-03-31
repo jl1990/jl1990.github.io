@@ -60,13 +60,16 @@ const navItems = [
     }
 
     let viewportHeight;
-    if(window.innerHeight !== undefined) {
-      viewportHeight = window.innerHeight;
-    } else {
-      viewportHeight = document.documentElement.clientHeight;
+    let updateViewportHeight = () => {
+      if(window.innerHeight !== undefined) {
+        viewportHeight = window.innerHeight;
+      } else {
+        viewportHeight = document.documentElement.clientHeight;
+      }
     }
+    updateViewportHeight()
 
-    const observer = (threshold) => { return new IntersectionObserver(callback, {
+    const observer = (threshold: number) => { return new IntersectionObserver(callback, {
       root: null,
       rootMargin: "0px",
       threshold: threshold,
@@ -74,7 +77,7 @@ const navItems = [
 
     const defaultThreshold = 0.5
     const defaultObserver = observer(defaultThreshold)
-    let extraObservers = []
+    let extraObservers: IntersectionObserver[] = []
 
     let disconnectObservers = () => {
       defaultObserver.disconnect();
@@ -83,13 +86,12 @@ const navItems = [
     }
 
     const registerObservers = () => {
+      updateViewportHeight()
       disconnectObservers()
-
       sections.forEach((section) => {
         const sectionHeight = section.getBoundingClientRect().height;
         if (sectionHeight > viewportHeight * defaultThreshold) {
           const requiredThreshold = Math.min(viewportHeight / sectionHeight, 1);
-          //const requiredThreshold = ((viewportHeight * defaultThreshold) / sectionHeight) * defaultThreshold + 0.1;
           let longSectionObserver = observer(requiredThreshold);
           extraObservers.push(longSectionObserver)
           longSectionObserver.observe(section)
