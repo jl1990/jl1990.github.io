@@ -42,42 +42,76 @@ const navItems = [
 
 <script>
   document.addEventListener("astro:page-load", () => {
+    const textClass = "text-yellow-500"
     const sections = document.querySelectorAll("section")
     const navItems = document.querySelectorAll("header nav a")
 
     const callback = (entries: any[]) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          navItems.forEach((item) => {
-            const textClass = "text-yellow-500";
-            if (item.getAttribute("aria-label") == entry.target.id) {
-              item.classList.add(textClass)
-            } else {
-              item.classList.remove(textClass)
-            }
-          })
+      let intersectingEntry = entries.find((entry) => entry.isIntersecting);
+      if (intersectingEntry) {
+        navItems.forEach((item) => {
+          if (item.getAttribute("aria-label") === intersectingEntry.target.id) {
+            item.classList.add(textClass)
+          } else {
+            item.classList.remove(textClass)
+          }
+        })
+      }
+    }
+
+    let viewportHeight;
+    if(window.innerHeight !== undefined) {
+      viewportHeight = window.innerHeight;
+    } else {
+      viewportHeight = document.documentElement.clientHeight;
+    }
+
+    const observer = (threshold) => { return new IntersectionObserver(callback, {
+      root: null,
+      rootMargin: "0px",
+      threshold: threshold,
+    })}
+
+    const defaultThreshold = 0.5
+    const defaultObserver = observer(defaultThreshold)
+    let extraObservers = []
+
+    let disconnectObservers = () => {
+      defaultObserver.disconnect();
+      extraObservers.forEach((extraObserver) => extraObserver.disconnect());
+      extraObservers = [];
+    }
+
+    const registerObservers = () => {
+      disconnectObservers()
+
+      sections.forEach((section) => {
+        const sectionHeight = section.getBoundingClientRect().height;
+        if (sectionHeight > viewportHeight * defaultThreshold) {
+          const requiredThreshold = Math.min(viewportHeight / sectionHeight, 1);
+          //const requiredThreshold = ((viewportHeight * defaultThreshold) / sectionHeight) * defaultThreshold + 0.1;
+          let longSectionObserver = observer(requiredThreshold);
+          extraObservers.push(longSectionObserver)
+          longSectionObserver.observe(section)
+          return
         }
+        defaultObserver.observe(section)
       })
     }
 
-    const observer = new IntersectionObserver(callback, {
-      root: null,
-      rootMargin: "0px",
-      threshold: 0.3,
-    })
+    registerObservers()
 
-    sections.forEach((section) => {
-      observer.observe(section)
+    //Register event listener for viewport change
+    window.addEventListener("resize", () => {
+      registerObservers()
     })
 
     // Cleanup function
     document.onvisibilitychange = () => {
       if (document.visibilityState === "hidden") {
-        observer.disconnect()
+        disconnectObservers()
       } else {
-        sections.forEach((section) => {
-          observer.observe(section)
-        })
+        registerObservers()
       }
     }
   })
