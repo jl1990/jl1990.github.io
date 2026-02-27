@@ -1,10 +1,15 @@
 import { defineConfig } from 'astro/config'
-import tailwind from "@astrojs/tailwind"
 
 import robotsTxt from "astro-robots-txt"
 
+import tailwindcss from '@tailwindcss/vite';
+
 // https://astro.build/config
 export default defineConfig({
-  integrations: [tailwind(), robotsTxt()],
-  site: 'https://j1l990.github.io/'
+  integrations: [robotsTxt()],
+  site: 'https://j1l990.github.io/',
+
+  vite: {
+    plugins: [tailwindcss()]
+  }
 })
