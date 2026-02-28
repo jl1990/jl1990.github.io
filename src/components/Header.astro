@@ -84,21 +84,33 @@ const navItems = [
 
 <style>
   nav {
+    --nav-bg: rgb(255 255 255 / 0.5);
+    --nav-ring: rgb(255 255 255 / 0.1);
     animation: nav-shadown 1s linear both;
     animation-timeline: scroll();
     animation-range: 0 100px;
-  }
-
-  nav {
-    @apply dark:bg-gray-800/90 bg-white/50;
+    background-color: var(--nav-bg);
   }
 
   @keyframes nav-shadown {
     0% {
-      @apply dark:bg-gray-800/0 bg-white/0;
+      background-color: transparent;
+      box-shadow: none;
+      backdrop-filter: blur(0);
+      -webkit-backdrop-filter: blur(0);
     }
     to {
-      @apply shadow-lg ring-1 backdrop-blur ring-white/10;
+      background-color: var(--nav-bg);
+      box-shadow:
+        0 0 0 1px var(--nav-ring),
+        0 10px 15px -3px rgb(0 0 0 / 0.1),
+        0 4px 6px -4px rgb(0 0 0 / 0.1);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
     }
+  }
+
+  :global(.dark) nav {
+    --nav-bg: rgb(31 41 55 / 0.9);
   }
 </style>
