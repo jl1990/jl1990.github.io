@@ -24,7 +24,7 @@ const navItems = [
   class="fixed top-0 z-10 flex items-center justify-center w-full mx-auto mt-2"
 >
   <nav
-    class="flex px-3 text-sm font-medium rounded-full text-gray-200 justify-center items-center"
+    class="flex px-3 text-sm font-medium rounded-full text-gray-600 dark:text-gray-200 justify-center items-center"
   >
     {
       navItems.map((link) => (
@@ -42,78 +42,41 @@ const navItems = [
 
 <script>
   document.addEventListener("astro:page-load", () => {
-    const textClass = "text-yellow-500"
     const sections = document.querySelectorAll("section")
     const navItems = document.querySelectorAll("header nav a")
 
     const callback = (entries: any[]) => {
-      let intersectingEntry = entries.find((entry) => entry.isIntersecting);
-      if (intersectingEntry) {
-        navItems.forEach((item) => {
-          if (item.getAttribute("aria-label") === intersectingEntry.target.id) {
-            item.classList.add("text-blue-500")
-          } else {
-            item.classList.remove("text-blue-500")
-          }
-        })
-      }
-    }
-
-    let viewportHeight: number;
-    let updateViewportHeight = () => {
-      if(window.innerHeight !== undefined) {
-        viewportHeight = window.innerHeight;
-      } else {
-        viewportHeight = document.documentElement.clientHeight;
-      }
-    }
-    updateViewportHeight()
-
-    const observer = (threshold: number) => { return new IntersectionObserver(callback, {
-      root: null,
-      rootMargin: "0px",
-      threshold: threshold,
-    })}
-
-    const defaultThreshold = 0.5
-    const defaultObserver = observer(defaultThreshold)
-    let extraObservers: IntersectionObserver[] = []
-
-    let disconnectObservers = () => {
-      defaultObserver.disconnect();
-      extraObservers.forEach((extraObserver) => extraObserver.disconnect());
-      extraObservers = [];
-    }
-
-    const registerObservers = () => {
-      updateViewportHeight()
-      disconnectObservers()
-      sections.forEach((section) => {
-        const sectionHeight = section.getBoundingClientRect().height;
-        if (sectionHeight > viewportHeight * defaultThreshold) {
-          const requiredThreshold = Math.min(viewportHeight / sectionHeight, 1);
-          let longSectionObserver = observer(requiredThreshold);
-          extraObservers.push(longSectionObserver)
-          longSectionObserver.observe(section)
-          return
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          navItems.forEach((item) => {
+            if (item.getAttribute("aria-label") == entry.target.id) {
+              item.classList.add("text-blue-500")
+            } else {
+              item.classList.remove("text-blue-500")
+            }
+          })
         }
-        defaultObserver.observe(section)
       })
     }
 
-    registerObservers()
+    const observer = new IntersectionObserver(callback, {
+      root: null,
+      rootMargin: "0px",
+      threshold: 0.3,
+    })
 
-    //Register event listener for viewport change
-    window.addEventListener("resize", () => {
-      registerObservers()
+    sections.forEach((section) => {
+      observer.observe(section)
     })
 
     // Cleanup function
     document.onvisibilitychange = () => {
       if (document.visibilityState === "hidden") {
-        disconnectObservers()
+        observer.disconnect()
       } else {
-        registerObservers()
+        sections.forEach((section) => {
+          observer.observe(section)
+        })
       }
     }
   })
@@ -135,7 +98,7 @@ const navItems = [
       @apply dark:bg-gray-800/0 bg-white/0;
     }
     to {
-      @apply shadow-lg ring-1 backdrop-blur  ring-white/10;
+      @apply shadow-lg ring-1 backdrop-blur ring-white/10;
     }
   }
 </style>
