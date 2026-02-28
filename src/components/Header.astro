@@ -4,17 +4,16 @@ import {EMAIL} from "../constants";
 const navItems = [
     {
         title: "Experience",
-        label: "experience",
+        sectionId: "experience",
         url: "/#experience",
     },
     {
         title: "About me",
-        label: "about-me",
+        sectionId: "about-me",
         url: "/#about-me",
     },
     {
         title: "Contact",
-        label: "contact",
         url: 'mailto:' + EMAIL,
     },
 ]
@@ -30,7 +29,7 @@ const navItems = [
       navItems.map((link) => (
         <a
           class="relative block px-2 py-2 transition hover:text-blue-500 dark:hover:text-blue-500"
-          aria-label={link.label}
+          data-section={link.sectionId}
           href={link.url}
         >
           {link.title}
@@ -48,12 +47,7 @@ const navItems = [
     const navItems = Array.from(document.querySelectorAll<HTMLAnchorElement>("header nav a"))
     const sectionLinks = navItems
       .map((item) => {
-        const href = item.getAttribute("href") ?? ""
-        const hashIndex = href.indexOf("#")
-
-        if (hashIndex === -1) return null
-
-        const id = href.slice(hashIndex + 1)
+        const id = item.dataset.section
         if (!id) return null
 
         return { id, item }
@@ -127,11 +121,7 @@ const navItems = [
       const currentTarget = event.currentTarget
       if (!(currentTarget instanceof HTMLAnchorElement)) return
 
-      const href = currentTarget.getAttribute("href") ?? ""
-      const hashIndex = href.indexOf("#")
-      if (hashIndex === -1) return
-
-      const id = href.slice(hashIndex + 1)
+      const id = currentTarget.dataset.section
       if (!id) return
       setActive(id)
     }

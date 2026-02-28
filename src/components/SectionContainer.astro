@@ -1,5 +1,10 @@
 ---
-const { class: className, id } = Astro.props
+interface Props {
+  id?: string
+  class?: string
+}
+
+const { class: className = "", id } = Astro.props as Props
 ---
 
 <section

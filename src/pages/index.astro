@@ -11,32 +11,29 @@ import TitleSection from "@/components/TitleSection.astro"
 ---
 
 <Layout
-        title="Juan Luis Carrasco"
-        description="Experienced computer engineer with a demonstrated history of working in the information technology and services industry. Skilled in software development, cloud computing, microservices... Strong engineering professional with a Master's degree focused in Computer Science from the University of Mélaga."
+  title="Juan Luis Carrasco"
+  description="Experienced computer engineer with a demonstrated history of working in the information technology and services industry. Skilled in software development, cloud computing, microservices... Strong engineering professional with a Master's degree focused in Computer Science from the University of Mélaga."
 >
-    <main class="px-4">
-        <SectionContainer class="py-16 md:py-36">
-            <Hero>
-                <slot/>
-            </Hero>
-        </SectionContainer>
-        <div class="space-y-24">
-            <SectionContainer id="experience">
-                <TitleSection
-                >
-                    <Briefcase class="size-8"/>
-                    Experience
-                </TitleSection>
-                <Experience/>
-            </SectionContainer>
-
-    <SectionContainer id="about-me">
-      <TitleSection>
-        <ProfileCheck class="size-8" />
-        About me
-      </TitleSection>
-      <AboutMe />
+  <main class="px-4">
+    <SectionContainer class="py-16 md:py-36">
+      <Hero />
     </SectionContainer>
-  </div>
+    <div class="space-y-24">
+      <SectionContainer id="experience">
+        <TitleSection>
+          <Briefcase class="size-8"/>
+          Experience
+        </TitleSection>
+        <Experience/>
+      </SectionContainer>
+
+      <SectionContainer id="about-me">
+        <TitleSection>
+          <ProfileCheck class="size-8" />
+          About me
+        </TitleSection>
+        <AboutMe />
+      </SectionContainer>
+    </div>
   </main>
 </Layout>
