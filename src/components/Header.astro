@@ -42,42 +42,120 @@ const navItems = [
 
 <script>
   document.addEventListener("astro:page-load", () => {
-    const sections = document.querySelectorAll("section")
-    const navItems = document.querySelectorAll("header nav a")
+    const globalWindow = window as Window & { __headerNavCleanup?: () => void }
+    globalWindow.__headerNavCleanup?.()
 
-    const callback = (entries: any[]) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          navItems.forEach((item) => {
-            if (item.getAttribute("aria-label") == entry.target.id) {
-              item.classList.add("text-blue-500")
-            } else {
-              item.classList.remove("text-blue-500")
-            }
-          })
+    const navItems = Array.from(document.querySelectorAll<HTMLAnchorElement>("header nav a"))
+    const sectionLinks = navItems
+      .map((item) => {
+        const href = item.getAttribute("href") ?? ""
+        const hashIndex = href.indexOf("#")
+
+        if (hashIndex === -1) return null
+
+        const id = href.slice(hashIndex + 1)
+        if (!id) return null
+
+        return { id, item }
+      })
+      .filter((entry): entry is { id: string; item: HTMLAnchorElement } => Boolean(entry))
+
+    const sections = sectionLinks
+      .map(({ id }) => document.getElementById(id))
+      .filter((section): section is HTMLElement => Boolean(section))
+
+    if (!sections.length) return
+
+    let activeId = ""
+
+    const setActive = (id: string) => {
+      if (!id || id === activeId) return
+      activeId = id
+
+      sectionLinks.forEach(({ id: sectionId, item }) => {
+        const isActive = sectionId === id
+        item.classList.remove("text-blue-500")
+        item.classList.toggle("!text-blue-500", isActive)
+        if (isActive) {
+          item.setAttribute("aria-current", "true")
+        } else {
+          item.removeAttribute("aria-current")
         }
       })
     }
 
-    const observer = new IntersectionObserver(callback, {
-      root: null,
-      rootMargin: "0px",
-      threshold: 0.3,
-    })
-
-    sections.forEach((section) => {
-      observer.observe(section)
-    })
-
-    // Cleanup function
-    document.onvisibilitychange = () => {
-      if (document.visibilityState === "hidden") {
-        observer.disconnect()
-      } else {
-        sections.forEach((section) => {
-          observer.observe(section)
-        })
+    const syncFromHash = () => {
+      const hashId = window.location.hash.replace("#", "")
+      if (!hashId) return
+      if (sections.some((section) => section.id === hashId)) {
+        setActive(hashId)
       }
+    }
+
+    const updateActive = () => {
+      const markerY = window.scrollY + window.innerHeight * 0.5
+      let candidateId = sections[0]?.id ?? ""
+
+      for (const section of sections) {
+        const sectionTop = section.getBoundingClientRect().top + window.scrollY
+        if (markerY >= sectionTop) {
+          candidateId = section.id
+        } else {
+          break
+        }
+      }
+
+      const isNearPageBottom =
+        window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2
+      if (isNearPageBottom) {
+        candidateId = sections[sections.length - 1]?.id ?? candidateId
+      }
+
+      if (candidateId) setActive(candidateId)
+    }
+
+    let rafId = 0
+    const onScrollOrResize = () => {
+      if (rafId) return
+      rafId = window.requestAnimationFrame(() => {
+        rafId = 0
+        updateActive()
+      })
+    }
+
+    const onNavClick = (event: Event) => {
+      const currentTarget = event.currentTarget
+      if (!(currentTarget instanceof HTMLAnchorElement)) return
+
+      const href = currentTarget.getAttribute("href") ?? ""
+      const hashIndex = href.indexOf("#")
+      if (hashIndex === -1) return
+
+      const id = href.slice(hashIndex + 1)
+      if (!id) return
+      setActive(id)
+    }
+
+    sectionLinks.forEach(({ item }) => {
+      item.addEventListener("click", onNavClick)
+    })
+
+    window.addEventListener("scroll", onScrollOrResize, { passive: true })
+    window.addEventListener("resize", onScrollOrResize)
+    updateActive()
+    syncFromHash()
+    window.addEventListener("hashchange", syncFromHash)
+
+    globalWindow.__headerNavCleanup = () => {
+      if (rafId) {
+        window.cancelAnimationFrame(rafId)
+      }
+      window.removeEventListener("scroll", onScrollOrResize)
+      window.removeEventListener("resize", onScrollOrResize)
+      window.removeEventListener("hashchange", syncFromHash)
+      sectionLinks.forEach(({ item }) => {
+        item.removeEventListener("click", onNavClick)
+      })
     }
   })
 </script>
