@@ -1,0 +1,43 @@
+---
+const GROUPS: { label: string; items: string[] }[] = [
+    {
+        label: "Languages & Platforms",
+        items: ["Java", "JVM", "Python"],
+    },
+    {
+        label: "Architecture",
+        items: ["Domain-Driven Design", "Microservices", "Clean Architecture", "Scalability"],
+    },
+    {
+        label: "Frameworks & Tools",
+        items: ["Spring", "MongoDB", "Apache Solr", "Git"],
+    },
+    {
+        label: "Others",
+        items: ["AWS", "Terraform", "Kafka", "PyTorch", "TensorFlow", "Keras"],
+    },
+    {
+        label: "Ways of working",
+        items: ["Agile", "Mentoring", "Cross-functional leadership"],
+    },
+]
+---
+
+<div class="mt-10 grid gap-6 md:grid-cols-2">
+    {
+        GROUPS.map((group) => (
+            <div class="rounded-2xl border border-white/10 bg-white/5 p-5">
+                <h3 class="mb-3 text-sm font-semibold uppercase tracking-wider text-yellow-200/80">
+                    {group.label}
+                </h3>
+                <ul class="flex flex-wrap gap-2">
+                    {group.items.map((item) => (
+                        <li class="rounded-full border border-white/10 bg-gray-800/60 px-3 py-1 text-sm text-gray-200">
+                            {item}
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        ))
+    }
+</div>

@@ -1,0 +1,34 @@
+---
+const LANGUAGES = [
+    { name: "Spanish", level: "Native", code: "es", dots: 5 },
+    { name: "English", level: "Full professional", code: "en", dots: 4 },
+    { name: "French", level: "Elementary", code: "fr", dots: 2 },
+]
+---
+
+<ul class="mt-10 grid gap-4 md:grid-cols-3">
+    {
+        LANGUAGES.map((lang) => (
+            <li class="rounded-2xl border border-white/10 bg-white/5 p-5" lang={lang.code}>
+                <div class="flex items-baseline justify-between">
+                    <h3 class="text-lg font-semibold text-yellow-400">{lang.name}</h3>
+                    <span
+                        class="flex gap-1"
+                        role="img"
+                        aria-label={`Proficiency: ${lang.level}`}
+                    >
+                        {Array.from({ length: 5 }).map((_, index) => (
+                            <span
+                                class:list={[
+                                    "block h-1.5 w-1.5 rounded-full",
+                                    index < lang.dots ? "bg-yellow-400" : "bg-white/15",
+                                ]}
+                            />
+                        ))}
+                    </span>
+                </div>
+                <p class="mt-1 text-sm text-white/70">{lang.level}</p>
+            </li>
+        ))
+    }
+</ul>

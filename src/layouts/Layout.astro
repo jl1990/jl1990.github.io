@@ -2,36 +2,109 @@
 import "@fontsource-variable/onest"
 import "../styles/global.css"
 
-import Header from "../components/Header.astro"
-import Footer from "../components/Footer.astro"
-import {ClientRouter} from "astro:transitions"
+import Header from "@/components/Header.astro"
+import Footer from "@/components/Footer.astro"
+import { EMAIL, GITHUB, LINKEDIN } from "@/constants"
+import { ClientRouter } from "astro:transitions"
 
 interface Props {
     title: string
     description: string
+    image?: string
 }
 
-const {description, title} = Astro.props
+const { description, title, image = "/avatar.webp" } = Astro.props
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site)
+const ogImage = new URL(image, Astro.site).toString()
+
+const personLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: "Juan Luis Carrasco",
+    jobTitle: "Domain Architect",
+    url: Astro.site?.toString(),
+    image: ogImage,
+    email: `mailto:${EMAIL}`,
+    address: {
+        "@type": "PostalAddress",
+        addressLocality: "Málaga",
+        addressRegion: "Andalusia",
+        addressCountry: "ES",
+    },
+    worksFor: {
+        "@type": "Organization",
+        name: "Saber.tech",
+        url: "https://saber.tech",
+    },
+    alumniOf: [
+        {
+            "@type": "CollegeOrUniversity",
+            name: "Universidad de Málaga",
+            url: "https://www.uma.es/",
+        },
+        {
+            "@type": "CollegeOrUniversity",
+            name: "Universidad Francisco de Vitoria",
+            url: "https://www.ufv.es/",
+        },
+    ],
+    hasCredential: [
+        {
+            "@type": "EducationalOccupationalCredential",
+            name: "Claude Code in Action",
+            credentialCategory: "certification",
+            recognizedBy: { "@type": "Organization", name: "Anthropic" },
+            url: "https://verify.skilljar.com/c/hd7i5m28cssu",
+        },
+    ],
+    sameAs: [GITHUB, LINKEDIN],
+    knowsLanguage: ["Spanish", "English", "French"],
+}
 ---
 
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
-    <meta name="description" content={description}/>
-    <meta name="viewport" content="width=device-width"/>
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta name="generator" content={Astro.generator}/>
+    <meta name="description" content={description}/>
+    <meta name="theme-color" content="#030712"/>
+    <meta name="author" content="Juan Luis Carrasco"/>
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+    <link rel="canonical" href={canonicalURL}/>
+
+    <meta property="og:type" content="profile"/>
+    <meta property="og:title" content={title}/>
+    <meta property="og:description" content={description}/>
+    <meta property="og:url" content={canonicalURL}/>
+    <meta property="og:image" content={ogImage}/>
+    <meta property="og:locale" content="en_US"/>
+    <meta property="og:site_name" content="Juan Luis Carrasco"/>
+
+    <meta name="twitter:card" content="summary"/>
+    <meta name="twitter:title" content={title}/>
+    <meta name="twitter:description" content={description}/>
+    <meta name="twitter:image" content={ogImage}/>
+
     <title>{title}</title>
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(personLd)}/>
     <ClientRouter/>
 </head>
 
-<body class="relative text-white">
-<div
-        class="absolute top-0 bottom-0 z-[-2] min-h-screen w-full bg-gray-950
-      bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]"
+<body class="relative antialiased text-white/90">
+<a
+    href="#main-content"
+    class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-gray-900 focus:px-4 focus:py-2 focus:text-sm focus:text-white focus:ring focus:ring-yellow-500/80 focus:ring-offset-2 focus:ring-offset-gray-950"
 >
-</div>
+    Skip to content
+</a>
+<div
+    aria-hidden="true"
+    class="absolute top-0 bottom-0 z-[-2] min-h-screen w-full bg-gray-950 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]"
+></div>
 <Header/>
 <slot/>
 <Footer/>
@@ -43,10 +116,10 @@ const {description, title} = Astro.props
     html {
         font-family: "Onest Variable", system-ui, sans-serif;
         scroll-behavior: smooth;
+        scroll-padding-top: 5rem;
     }
 
     body {
-        color: rgba(17, 17, 17, 0.9);
         display: flex;
         flex-direction: column;
         min-height: 100vh;
@@ -59,9 +132,40 @@ const {description, title} = Astro.props
         }
     }
 
-    @media (prefers-color-scheme: dark) {
+    @media print {
+        :root {
+            color-scheme: light;
+        }
         body {
-            color: rgba(255, 255, 255, 0.9);
+            color: #000 !important;
+            background: #fff !important;
+        }
+        body > div[aria-hidden="true"],
+        header,
+        footer {
+            display: none !important;
+        }
+        main {
+            padding: 0 !important;
+        }
+        a {
+            color: #000 !important;
+            text-decoration: underline;
+        }
+        h1, h2, h3, h4 {
+            color: #000 !important;
+            break-after: avoid;
+        }
+        .text-white, .text-white\/90, .text-gray-300, .text-gray-200,
+        .text-yellow-400, .text-yellow-200, .text-yellow-200\/80 {
+            color: #000 !important;
+        }
+        .border-white\/10, .bg-white\/5, .bg-gray-800\/60, .bg-gray-800 {
+            background: transparent !important;
+            border-color: #ccc !important;
+        }
+        section {
+            break-inside: avoid;
         }
     }
 </style>

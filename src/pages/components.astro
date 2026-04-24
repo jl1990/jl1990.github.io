@@ -1,27 +1,32 @@
 ---
 import Badge from "@/components/Badge.astro"
+import Layout from "@/layouts/Layout.astro"
 import SectionContainer from "@/components/SectionContainer.astro"
 import SocialPill from "@/components/SocialPill.astro"
 import LinkedInIcon from "@/components/icons/LinkedIn.astro"
+import MapPinIcon from "@/components/icons/MapPin.astro"
 
-import Layout from "@/layouts/Layout.astro"
-import {LINKEDIN} from "../constants";
+import { LINKEDIN } from "@/constants"
 ---
 
 <Layout
-        title="Design System porfolio.dev"
-        description="El catálogo de componentes de nuestro porfolio"
+    title="Design System — Juan Luis Carrasco"
+    description="Component catalogue for the portfolio."
 >
-    <SectionContainer class="py-44 pb-32 flex flex-col gap-y-10">
+    <main id="main-content">
+    <SectionContainer class="py-44 pb-32 flex flex-col gap-y-10 px-4">
         <article class="mb-10">
             <h1 class="mb-4 text-xl font-semibold">&lt;Badge /&gt;</h1>
-
-            <Badge>Disponible para trabajar</Badge>
+            <Badge>
+                <span class="inline-flex items-center gap-1.5">
+                    <MapPinIcon class="size-3.5"/>
+                    Málaga, Spain
+                </span>
+            </Badge>
         </article>
 
         <article class="mb-10">
-            <h1 class="mb-4 text-xl font-semibold">&lt SocialPill /&gt;</h1>
-
+            <h1 class="mb-4 text-xl font-semibold">&lt;SocialPill /&gt;</h1>
             <div class="flex">
                 <SocialPill href={LINKEDIN}>
                     <LinkedInIcon class="size-4 md:size-6"/>
@@ -30,4 +35,5 @@ import {LINKEDIN} from "../constants";
             </div>
         </article>
     </SectionContainer>
+    </main>
 </Layout>

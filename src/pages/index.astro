@@ -2,38 +2,69 @@
 import Layout from "@/layouts/Layout.astro"
 
 import AboutMe from "@/components/AboutMe.astro"
-import Briefcase from "@/components/icons/Briefcase.astro"
+import Education from "@/components/Education.astro"
 import Experience from "@/components/Experience.astro"
-import ProfileCheck from "@/components/icons/ProfileCheck.astro"
-import SectionContainer from "@/components/SectionContainer.astro"
 import Hero from "@/components/Hero.astro"
+import Languages from "@/components/Languages.astro"
+import SectionContainer from "@/components/SectionContainer.astro"
+import Skills from "@/components/Skills.astro"
 import TitleSection from "@/components/TitleSection.astro"
+
+import Briefcase from "@/components/icons/Briefcase.astro"
+import Code from "@/components/icons/Code.astro"
+import Globe from "@/components/icons/Globe.astro"
+import GraduationCap from "@/components/icons/GraduationCap.astro"
+import ProfileCheck from "@/components/icons/ProfileCheck.astro"
 ---
 
 <Layout
-  title="Juan Luis Carrasco"
-  description="Experienced computer engineer with a demonstrated history of working in the information technology and services industry. Skilled in software development, cloud computing, microservices... Strong engineering professional with a Master's degree focused in Computer Science from the University of Mélaga."
+    title="Juan Luis Carrasco — Domain Architect"
+    description="Domain Architect based in Málaga, Spain. 10+ years designing scalable services, replacing legacy monoliths with clean, well-bounded domains. Java, JVM, Python, MongoDB, AWS, microservices."
 >
-  <main class="px-4">
-    <SectionContainer class="py-16 md:py-36">
-      <Hero />
-    </SectionContainer>
-    <div class="space-y-24">
-      <SectionContainer id="experience">
-        <TitleSection>
-          <Briefcase class="size-8"/>
-          Experience
-        </TitleSection>
-        <Experience/>
-      </SectionContainer>
+    <main id="main-content" class="px-4">
+        <SectionContainer class="py-16 md:py-36">
+            <Hero/>
+        </SectionContainer>
+        <div class="space-y-24">
+            <SectionContainer id="experience">
+                <TitleSection>
+                    <Briefcase class="size-8"/>
+                    Experience
+                </TitleSection>
+                <Experience/>
+            </SectionContainer>
 
-      <SectionContainer id="about-me">
-        <TitleSection>
-          <ProfileCheck class="size-8" />
-          About me
-        </TitleSection>
-        <AboutMe />
-      </SectionContainer>
-    </div>
-  </main>
+            <SectionContainer id="skills">
+                <TitleSection>
+                    <Code class="size-8"/>
+                    Skills
+                </TitleSection>
+                <Skills/>
+            </SectionContainer>
+
+            <SectionContainer id="education">
+                <TitleSection>
+                    <GraduationCap class="size-8"/>
+                    Education
+                </TitleSection>
+                <Education/>
+            </SectionContainer>
+
+            <SectionContainer id="languages">
+                <TitleSection>
+                    <Globe class="size-8"/>
+                    Languages
+                </TitleSection>
+                <Languages/>
+            </SectionContainer>
+
+            <SectionContainer id="about-me">
+                <TitleSection>
+                    <ProfileCheck class="size-8"/>
+                    About me
+                </TitleSection>
+                <AboutMe/>
+            </SectionContainer>
+        </div>
+    </main>
 </Layout>

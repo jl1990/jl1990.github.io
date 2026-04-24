@@ -1,184 +1,169 @@
 ---
-import {EMAIL} from "../constants";
+import { EMAIL } from "@/constants"
 
 const navItems = [
-    {
-        title: "Experience",
-        sectionId: "experience",
-        url: "/#experience",
-    },
-    {
-        title: "About me",
-        sectionId: "about-me",
-        url: "/#about-me",
-    },
-    {
-        title: "Contact",
-        url: 'mailto:' + EMAIL,
-    },
+    { title: "Experience", sectionId: "experience", url: "/#experience" },
+    { title: "Skills", sectionId: "skills", url: "/#skills" },
+    { title: "Education", sectionId: "education", url: "/#education" },
+    { title: "About", sectionId: "about-me", url: "/#about-me" },
+    { title: "Contact", url: "mailto:" + EMAIL },
 ]
 ---
 
-<header
-  class="fixed top-0 z-10 flex items-center justify-center w-full mx-auto mt-2"
->
-  <nav
-    class="flex px-3 text-sm font-medium rounded-full text-gray-200 justify-center items-center"
-  >
-    {
-      navItems.map((link) => (
-        <a
-          class="relative block px-2 py-2 transition hover:text-blue-500"
-          data-section={link.sectionId}
-          href={link.url}
-        >
-          {link.title}
-        </a>
-      ))
-    }
-  </nav>
+<header class="fixed top-0 z-10 flex justify-center w-full mx-auto mt-2 px-2">
+    <nav
+        aria-label="Primary"
+        data-nav
+        class="nav-scroll flex max-w-full overflow-x-auto px-2 sm:px-3 gap-0.5 sm:gap-1 text-xs sm:text-sm font-medium rounded-full text-gray-200 items-center transition-[background-color,box-shadow,backdrop-filter] duration-200"
+    >
+        {
+            navItems.map((link) => (
+                <a
+                    class="relative whitespace-nowrap px-2 py-2 transition hover:text-blue-500 rounded-full focus:outline-none focus-visible:ring focus-visible:ring-yellow-500/80 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-950"
+                    data-section={link.sectionId}
+                    href={link.url}
+                >
+                    {link.title}
+                </a>
+            ))
+        }
+    </nav>
 </header>
 
 <script>
-  document.addEventListener("astro:page-load", () => {
-    const globalWindow = window as Window & { __headerNavCleanup?: () => void }
-    globalWindow.__headerNavCleanup?.()
+    document.addEventListener("astro:page-load", () => {
+        const globalWindow = window as Window & { __headerNavCleanup?: () => void }
+        globalWindow.__headerNavCleanup?.()
 
-    const navItems = Array.from(document.querySelectorAll<HTMLAnchorElement>("header nav a"))
-    const sectionLinks = navItems
-      .map((item) => {
-        const id = item.dataset.section
-        if (!id) return null
+        const nav = document.querySelector<HTMLElement>("header nav[data-nav]")
+        const navItems = Array.from(document.querySelectorAll<HTMLAnchorElement>("header nav a"))
+        const sectionLinks = navItems
+            .map((item) => {
+                const id = item.dataset.section
+                return id ? { id, item } : null
+            })
+            .filter((entry): entry is { id: string; item: HTMLAnchorElement } => Boolean(entry))
 
-        return { id, item }
-      })
-      .filter((entry): entry is { id: string; item: HTMLAnchorElement } => Boolean(entry))
+        const sections = sectionLinks
+            .map(({ id }) => document.getElementById(id))
+            .filter((section): section is HTMLElement => Boolean(section))
 
-    const sections = sectionLinks
-      .map(({ id }) => document.getElementById(id))
-      .filter((section): section is HTMLElement => Boolean(section))
+        let activeId = ""
 
-    if (!sections.length) return
+        const setActive = (id: string) => {
+            if (!id || id === activeId) return
+            activeId = id
 
-    let activeId = ""
-
-    const setActive = (id: string) => {
-      if (!id || id === activeId) return
-      activeId = id
-
-      sectionLinks.forEach(({ id: sectionId, item }) => {
-        const isActive = sectionId === id
-        item.classList.remove("text-blue-500")
-        item.classList.toggle("!text-blue-500", isActive)
-        if (isActive) {
-          item.setAttribute("aria-current", "true")
-        } else {
-          item.removeAttribute("aria-current")
+            sectionLinks.forEach(({ id: sectionId, item }) => {
+                const isActive = sectionId === id
+                item.classList.toggle("text-blue-500", isActive)
+                if (isActive) {
+                    item.setAttribute("aria-current", "true")
+                } else {
+                    item.removeAttribute("aria-current")
+                }
+            })
         }
-      })
-    }
 
-    const syncFromHash = () => {
-      const hashId = window.location.hash.replace("#", "")
-      if (!hashId) return
-      if (sections.some((section) => section.id === hashId)) {
-        setActive(hashId)
-      }
-    }
-
-    const updateActive = () => {
-      const markerY = window.scrollY + window.innerHeight * 0.5
-      let candidateId = sections[0]?.id ?? ""
-
-      for (const section of sections) {
-        const sectionTop = section.getBoundingClientRect().top + window.scrollY
-        if (markerY >= sectionTop) {
-          candidateId = section.id
-        } else {
-          break
+        const syncFromHash = () => {
+            const hashId = window.location.hash.replace("#", "")
+            if (!hashId) return
+            if (sections.some((section) => section.id === hashId)) setActive(hashId)
         }
-      }
 
-      const isNearPageBottom =
-        window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2
-      if (isNearPageBottom) {
-        candidateId = sections[sections.length - 1]?.id ?? candidateId
-      }
+        const updateActive = () => {
+            if (!sections.length) return
+            const markerY = window.scrollY + window.innerHeight * 0.5
+            let candidateId = sections[0]?.id ?? ""
 
-      if (candidateId) setActive(candidateId)
-    }
+            for (const section of sections) {
+                const sectionTop = section.getBoundingClientRect().top + window.scrollY
+                if (markerY >= sectionTop) {
+                    candidateId = section.id
+                } else {
+                    break
+                }
+            }
 
-    let rafId = 0
-    const onScrollOrResize = () => {
-      if (rafId) return
-      rafId = window.requestAnimationFrame(() => {
-        rafId = 0
+            const isNearPageBottom =
+                window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2
+            if (isNearPageBottom) {
+                candidateId = sections[sections.length - 1]?.id ?? candidateId
+            }
+
+            if (candidateId) setActive(candidateId)
+        }
+
+        const updateScrolled = () => {
+            if (!nav) return
+            if (window.scrollY > 50) {
+                nav.dataset.scrolled = "true"
+            } else {
+                delete nav.dataset.scrolled
+            }
+        }
+
+        let rafId = 0
+        const onScrollOrResize = () => {
+            if (rafId) return
+            rafId = window.requestAnimationFrame(() => {
+                rafId = 0
+                updateActive()
+                updateScrolled()
+            })
+        }
+
+        const onNavClick = (event: Event) => {
+            const currentTarget = event.currentTarget
+            if (!(currentTarget instanceof HTMLAnchorElement)) return
+            const id = currentTarget.dataset.section
+            if (id) setActive(id)
+        }
+
+        sectionLinks.forEach(({ item }) => item.addEventListener("click", onNavClick))
+        window.addEventListener("scroll", onScrollOrResize, { passive: true })
+        window.addEventListener("resize", onScrollOrResize)
+        window.addEventListener("hashchange", syncFromHash)
+
         updateActive()
-      })
-    }
+        updateScrolled()
+        syncFromHash()
 
-    const onNavClick = (event: Event) => {
-      const currentTarget = event.currentTarget
-      if (!(currentTarget instanceof HTMLAnchorElement)) return
-
-      const id = currentTarget.dataset.section
-      if (!id) return
-      setActive(id)
-    }
-
-    sectionLinks.forEach(({ item }) => {
-      item.addEventListener("click", onNavClick)
+        globalWindow.__headerNavCleanup = () => {
+            if (rafId) window.cancelAnimationFrame(rafId)
+            window.removeEventListener("scroll", onScrollOrResize)
+            window.removeEventListener("resize", onScrollOrResize)
+            window.removeEventListener("hashchange", syncFromHash)
+            sectionLinks.forEach(({ item }) => item.removeEventListener("click", onNavClick))
+        }
     })
-
-    window.addEventListener("scroll", onScrollOrResize, { passive: true })
-    window.addEventListener("resize", onScrollOrResize)
-    updateActive()
-    syncFromHash()
-    window.addEventListener("hashchange", syncFromHash)
-
-    globalWindow.__headerNavCleanup = () => {
-      if (rafId) {
-        window.cancelAnimationFrame(rafId)
-      }
-      window.removeEventListener("scroll", onScrollOrResize)
-      window.removeEventListener("resize", onScrollOrResize)
-      window.removeEventListener("hashchange", syncFromHash)
-      sectionLinks.forEach(({ item }) => {
-        item.removeEventListener("click", onNavClick)
-      })
-    }
-  })
 </script>
 
 <style>
-  nav {
-    --nav-bg: rgb(255 255 255 / 0.5);
-    --nav-ring: rgb(255 255 255 / 0.1);
-    animation: nav-shadown 1s linear both;
-    animation-timeline: scroll();
-    animation-range: 0 100px;
-    background-color: var(--nav-bg);
-  }
-
-  @keyframes nav-shadown {
-    0% {
-      background-color: transparent;
-      box-shadow: none;
-      backdrop-filter: blur(0);
-      -webkit-backdrop-filter: blur(0);
+    nav[data-nav] {
+        background-color: transparent;
     }
-    to {
-      background-color: var(--nav-bg);
-      box-shadow:
-        0 0 0 1px var(--nav-ring),
-        0 10px 15px -3px rgb(0 0 0 / 0.1),
-        0 4px 6px -4px rgb(0 0 0 / 0.1);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-    }
-  }
 
-  :global(.dark) nav {
-    --nav-bg: rgb(31 41 55 / 0.9);
-  }
+    nav[data-nav][data-scrolled] {
+        background-color: rgb(255 255 255 / 0.5);
+        box-shadow:
+            0 0 0 1px rgb(255 255 255 / 0.1),
+            0 10px 15px -3px rgb(0 0 0 / 0.1),
+            0 4px 6px -4px rgb(0 0 0 / 0.1);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+    }
+
+    .nav-scroll {
+        scrollbar-width: none;
+    }
+    .nav-scroll::-webkit-scrollbar {
+        display: none;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        nav[data-nav] {
+            transition: none;
+        }
+    }
 </style>

@@ -1,19 +1,24 @@
 ---
-import {EMAIL} from "../constants";
+import { EMAIL } from "@/constants"
+
 const currentYear = new Date().getFullYear()
 ---
 
-<footer class="opacity-80 m-4 min-[375px]:pl-4 md:pl-0 mt-16 w-full mx-auto container lg:max-w-4xl md:max-w-2xl mb-10 flex justify-center">
-    <div class="rounded-lg w-full max-w-screen-xl mx-auto md:flex md:items-center md:justify-between py-4">
-    <span class="text-sm sm:text-center text-zinc-200/90">
-        {currentYear} - Juan Luis Carrasco
-    </span>
-        <ul class="flex flex-wrap items-center mt-3 text-sm font-medium text-white/90 sm:mt-0">
+<footer class="mt-16 mb-10 w-full mx-auto container lg:max-w-4xl md:max-w-2xl px-4 opacity-80">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 py-4">
+        <span class="text-sm text-zinc-200/90">
+            {currentYear} &mdash; Juan Luis Carrasco
+        </span>
+        <ul class="flex flex-wrap items-center gap-4 text-sm font-medium text-white/90">
+            <li><a href="/#about-me" class="hover:underline">About</a></li>
             <li>
-                <a href="/#about-me" class="hover:underline me-4 md:me-6">About me</a>
-            </li>
-            <li>
-                <a id="contacto" href={'mailto:' + EMAIL} class="hover:underline">Contact</a>
+                <a
+                    id="contact"
+                    href={'mailto:' + EMAIL}
+                    class="hover:underline rounded-sm focus:outline-none focus-visible:ring focus-visible:ring-yellow-500/80 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-950"
+                >
+                    Contact
+                </a>
             </li>
         </ul>
     </div>

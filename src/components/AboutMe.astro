@@ -1,26 +1,50 @@
 ---
-const personalImageAlt = "Juan Luis"
+const personalImageAlt = "Portrait of Juan Luis Carrasco"
 ---
 
 <article class="flex flex-col items-center justify-center gap-8 text-gray-300 md:flex-row">
     <div class="[&>p]:mb-4 [&_strong]:text-yellow-100 [&_strong]:font-normal [&_strong]:font-mono text-pretty order-2 md:order-1">
         <p>
-            I am Juan Luis Carrasco Merchán. I started programming in BASIC when I was a child.
-            Currently I work as a <strong>Domain Architect for a multinational company</strong>.
+            I am <strong>Juan Luis Carrasco Merchán</strong>. From an early age I've been deeply
+            interested in technology &mdash; a passion that has shaped both my personal and
+            professional journey. I started out writing BASIC as a kid and never really stopped.
         </p>
         <p>
-            I also feel proud of having contributed to
-            <a href="https://android-review.googlesource.com/q/owner:jlcarrasco1990%2540gmail.com+status:merged"><strong class="hover:text-yellow-500">Android source code</strong>.</a>
+            I have extensive experience in <strong>software development and system architecture</strong>,
+            with a strong emphasis on agile methodologies, scalability and clean design. I currently
+            work as a Domain Architect, helping replace legacy monoliths with well-bounded services.
         </p>
-
         <p>
-            I co-founded <a href="https://securekids.es"><strong class="hover:text-yellow-500">
-            SecureKids, <em class="italic">a parental control application</em></strong>,</a>
-            with the aim of helping parents to protect their children from the dangers of the Internet.
+            I'm an active supporter of the open-source community and I'm honoured to be a contributor
+            to the official
+            <a
+                href="https://android-review.googlesource.com/q/owner:jlcarrasco1990%2540gmail.com+status:merged"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="rounded-sm focus:outline-none focus-visible:ring focus-visible:ring-yellow-500/80 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-950"
+            >
+                <strong class="hover:text-yellow-500">Android source code</strong></a>.
+        </p>
+        <p>
+            I also co-founded
+            <a
+                href="https://securekids.es"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="rounded-sm focus:outline-none focus-visible:ring focus-visible:ring-yellow-500/80 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-950"
+            >
+                <strong class="hover:text-yellow-500">SecureKids</strong></a>,
+            a parental-control application built to help families keep their children safe on the internet.
         </p>
     </div>
-    <img loading="lazy" width="200" height="200" src="/me.webp" alt={personalImageAlt}
-         class="order-1 object-cover w-64 h-full p-1 md:order-2 rotate-3 lg:p-2 lg:w-64 aspect-square rounded-2xl bg-yellow-500/5 ring-1 ring-white/20"
-         style="object-position: 50% 50%">
-
+    <img
+        loading="lazy"
+        decoding="async"
+        width="256"
+        height="256"
+        src="/me.webp"
+        alt={personalImageAlt}
+        class="order-1 object-cover w-64 h-64 p-1 md:order-2 rotate-3 lg:p-2 aspect-square rounded-2xl bg-yellow-500/5 ring-1 ring-white/20"
+        style="object-position: 50% 50%"
+    />
 </article>

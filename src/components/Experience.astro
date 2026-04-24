@@ -1,69 +1,105 @@
 ---
-import ExperienceItem from "./ExperienceItem.astro"
+import ExperienceItem from "@/components/ExperienceItem.astro"
+
 const EXPERIENCE = [
     {
-        date: "Jun 2023 - Present",
+        date: "Jun 2023 — Present",
+        dateTime: "2023-06",
         title: "Domain Architect",
-        company: "Saber.Tech",
+        company: "Saber.tech",
         description:
-            "Development of services for a lottery client. Creation of new microservices to enhance the functionality and performance of the platform and to replace a legacy monolithic application.",
+            "Design and implementation of microservices for a lottery client, replacing a legacy monolithic platform. Focus on scalability, clean architecture and cross-team alignment on domain boundaries.",
         link: "https://saber.tech",
     },
     {
-        date: "Aug 2020 - Jun 2023",
+        date: "May 2023 — Jun 2023",
+        dateTime: "2023-05",
         title: "Domain Architect",
         company: "Ciklum",
+        domain: "ciklum.com",
         description:
-            "Development of services for a lottery client. Creation of new microservices to enhance the functionality and performance of the platform and to replace a legacy monolithic application.",
-        link: "https://ciklum.com"
+            "Short promotion window bridging the Senior Software Engineer role and the move to Saber.tech, leading domain decisions for the lottery platform.",
+        link: "https://ciklum.com",
     },
     {
-        date: "Nov 2017 - Jul 2019",
-        title: "Lead software engineer",
-        company: "EPAM Systems",
+        date: "Aug 2020 — May 2023",
+        dateTime: "2020-08",
+        title: "Senior Software Engineer",
+        company: "Ciklum",
+        domain: "ciklum.com",
         description:
-            "Managed team for mortgage and real estate report services, overseeing development, maintenance, and smooth operations, coordinating cross-functional efforts for releases and issue resolution.",
+            "Development of services for a lottery client. Creation of new microservices to enhance the functionality and performance of the platform and to replace a legacy monolithic application.",
+        link: "https://ciklum.com",
+    },
+    {
+        date: "Jul 2019 — Aug 2020",
+        dateTime: "2019-07",
+        title: "Lead Software Engineer",
+        company: "EPAM Systems",
+        domain: "epam.com",
+        description:
+            "Led a team in the creation and maintenance of services generating mortgage and real-estate reports for a major client. Coordinated cross-functional teams on releases, issue resolution and investigations to keep these critical services running smoothly.",
         link: "https://epam.com",
     },
     {
-        date: "Nov 2017 - Jul 2019",
-        title: "Senior software developer",
+        date: "Nov 2017 — Jul 2019",
+        dateTime: "2017-11",
+        title: "Senior Software Engineer (Thomas Cook)",
         company: "Ciklum",
+        domain: "ciklum.com",
         description:
-            "Development of microservices for Thomas Cook, integrating Thomas Cook with Expedia services, maintaining and development of the search engine used by Thomas Cook (with Apache Solr).",
-        link: "https://ciklum.com"
+            "Development of microservices for Thomas Cook, integrating with Expedia services and maintaining the Apache Solr search engine powering the travel platform.",
+        link: "https://ciklum.com",
     },
     {
-        date: "Apr 2015 - Nov 2017",
-        title: "Technical consultant",
-        company: "Hewlett-Packard Enterprise",
+        date: "Apr 2015 — Nov 2017",
+        dateTime: "2015-04",
+        title: "Technical Consultant",
+        company: "Hewlett Packard Enterprise",
+        domain: "hpe.com",
         description:
-            "Technical consultant for Hewlett Packard Enterprise focused on development of solutions (RCS, SIP) for major telco companies (such as Telefonica, Vodafone...).",
-        link: "https://hpe.com"
+            "Technical consultant focused on RCS and SIP solutions for major telco operators such as Telefónica and Vodafone.",
+        link: "https://hpe.com",
     },
     {
-        date: "Mar 2014 - Jul 2015",
-        title: "Co-Founder and technical lead",
-        company: "Securekids",
-        description:
-            "Securekids is a parental control application to keep childrens safe on the internet. I was responsible for the development of the Android application",
-        link: "https://securekids.es/"
-    },
-    {
-        date: "Feb 2015 - Feb 2015",
-        title: "HP University 12th Edition participant",
+        date: "Feb 2015",
+        dateTime: "2015-02",
+        title: "HP University — 12th Edition",
         company: "Hewlett-Packard",
+        domain: "hp.com",
         description:
-            "The HP University Program is a rigorous training for talented individuals, assessing skills like analytical ability, communication, and adaptability. Successful participants may become Hewlett-Packard employees.",
-        link: "https://www.hp.com/"
+            "Selected for Hewlett-Packard's intensive training programme for talented young engineers. Assessment covered analytical ability, communication, customer focus, leadership and adaptability.",
+        link: "https://www.hp.com/",
     },
     {
-        date: "Oct 2013 - Dec 2013",
-        title: "Android developer",
-        company: "Grupo ACT",
+        date: "Mar 2014 — Jul 2015",
+        dateTime: "2014-03",
+        title: "Co-Founder",
+        company: "SecureKids",
+        domain: "securekids.es",
         description:
-            "Android development for 'Malaga Funciona' application and others.",
-        link: "https://grupoact.com/"
+            "Co-founded SecureKids, a parental-control application for Android helping parents keep their children safe online. Responsible for the Android app architecture and implementation.",
+        link: "https://securekids.es/",
+    },
+    {
+        date: "Jan 2014",
+        dateTime: "2014-01",
+        title: "Contributor",
+        company: "Android Open Source Project",
+        domain: "android.com",
+        description:
+            "Accepted contributions to the official Android source code — a long-standing personal highlight and an entry point into the open-source community.",
+        link: "https://android-review.googlesource.com/q/owner:jlcarrasco1990%2540gmail.com+status:merged",
+    },
+    {
+        date: "Oct 2013 — Dec 2013",
+        dateTime: "2013-10",
+        title: "Android Developer",
+        company: "Gecor System",
+        domain: "gecorsystem.com",
+        description:
+            "Android development for the 'Málaga Funciona' application and other consumer apps. The company now operates as Gecor System.",
+        link: "https://gecorsystem.com/",
     },
 ]
 ---

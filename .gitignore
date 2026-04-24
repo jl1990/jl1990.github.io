@@ -21,5 +21,7 @@ pnpm-debug.log*
 .DS_Store
 bun.*
 
+# editor / IDE
+.idea/
+
 package-lock.json
-pnpm-lock.yaml

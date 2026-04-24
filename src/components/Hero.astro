@@ -1,40 +1,56 @@
 ---
-import {EMAIL, GITHUB, LINKEDIN} from "../constants";
-const personalImageAlt = "Juan Luis"
-import LinkedInIcon from "@/components/icons/LinkedIn.astro"
-import GithubIcon from "@/components/icons/GitHub.astro"
-import MailIcon from "@/components/icons/Mail.astro"
+import Badge from "@/components/Badge.astro"
 import SocialPill from "@/components/SocialPill.astro"
+import GithubIcon from "@/components/icons/GitHub.astro"
+import LinkedInIcon from "@/components/icons/LinkedIn.astro"
+import MailIcon from "@/components/icons/Mail.astro"
+import MapPinIcon from "@/components/icons/MapPin.astro"
+import { EMAIL, GITHUB, LINKEDIN } from "@/constants"
 
-const yearsOfExperience = new Date().getFullYear() - 2013;
+const personalImageAlt = "Portrait of Juan Luis Carrasco"
+const yearsOfExperience = new Date().getFullYear() - 2013
 ---
 
 <div class="max-w-xl">
-    <div class="flex gap-4 mb-4">
-        <img
-                class="rounded-full shadow-lg size-16"
-                src="/github.webp"
-                alt={personalImageAlt}
-        />
-    </div>
-    <h1
-            class="text-4xl font-bold tracking-tight sm:text-5xl text-white"
-    >
+    <img
+        width="64"
+        height="64"
+        decoding="async"
+        fetchpriority="high"
+        class="rounded-full shadow-lg size-16 mb-4"
+        src="/avatar.webp"
+        alt={personalImageAlt}
+    />
+    <h1 class="text-4xl font-bold tracking-tight sm:text-5xl text-white">
         Hi, I am Juanlu
     </h1>
-    <p class="mt-6 text-xl [&_strong]:text-yellow-200  [&_strong]:font-semibold text-gray-300">
-        +{yearsOfExperience} years of experience in
-        <strong>Computer engineering</strong>. I am from Málaga, Spain.
-        Currently working as Domain Architect for <a href="https://saber.tech/"><strong class="hover:text-yellow-500">Saber.Tech</strong></a>.
+    <div class="mt-4 flex flex-wrap items-center gap-3">
+        <Badge>
+            <span class="inline-flex items-center gap-1.5">
+                <MapPinIcon class="size-3.5"/>
+                Málaga, Spain
+            </span>
+        </Badge>
+    </div>
+    <p class="mt-6 text-xl [&_strong]:text-yellow-200 [&_strong]:font-semibold text-gray-300">
+        {yearsOfExperience}+ years of experience in <strong>computer engineering</strong>.
+        Currently working as Domain Architect at
+        <a
+            href="https://saber.tech/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="rounded-sm focus:outline-none focus-visible:ring focus-visible:ring-yellow-500/80 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-950"
+        ><strong class="hover:text-yellow-500">Saber.tech</strong></a>,
+        designing scalable services and replacing legacy monoliths with cleanly bounded domains.
     </p>
-    <nav class="flex flex-wrap gap-4 mt-8">
-        <SocialPill href={GITHUB}>
-            <GithubIcon class="size-4"/>
-            Github
-        </SocialPill>
+    <nav aria-label="Primary contact" class="flex flex-wrap gap-4 mt-8">
         <SocialPill href={LINKEDIN}>
             <LinkedInIcon class="size-4"/>
             LinkedIn
+        </SocialPill>
+        <SocialPill href={GITHUB}>
+            <GithubIcon class="size-4"/>
+            GitHub
         </SocialPill>
         <SocialPill href={'mailto:' + EMAIL}>
             <MailIcon class="size-4"/>

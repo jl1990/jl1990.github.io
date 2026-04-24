@@ -1,0 +1,73 @@
+---
+const EDUCATION = [
+    {
+        institution: "Universidad de Málaga",
+        degree: "Bachelor's Degree — Computer Science Engineering",
+        period: "2008 — 2014",
+        dateTime: "2008",
+        link: "https://www.uma.es/",
+    },
+    {
+        institution: "Universidad Francisco de Vitoria",
+        degree: "Capacitación Tecnológica y Habilidades Profesionales",
+        period: "2015",
+        dateTime: "2015",
+        link: "https://www.ufv.es/",
+    },
+]
+
+const CERTIFICATIONS = [
+    {
+        name: "Claude Code in Action",
+        issuer: "Anthropic",
+        link: "https://verify.skilljar.com/c/hd7i5m28cssu",
+    },
+]
+---
+
+<div class="mt-10 space-y-6">
+    <ul class="grid gap-4 md:grid-cols-2">
+        {
+            EDUCATION.map((item) => (
+                <li class="rounded-2xl border border-white/10 bg-white/5 p-5">
+                    <h3 class="text-lg font-semibold text-yellow-400">{item.degree}</h3>
+                    <a
+                        href={item.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-white hover:text-yellow-200 rounded-sm focus:outline-none focus-visible:ring focus-visible:ring-yellow-500/80 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-950"
+                    >
+                        {item.institution}
+                    </a>
+                    <time datetime={item.dateTime} class="block mt-1 text-sm text-white/70">
+                        {item.period}
+                    </time>
+                </li>
+            ))
+        }
+    </ul>
+
+    <div class="rounded-2xl border border-white/10 bg-white/5 p-5">
+        <h3 class="mb-2 text-sm font-semibold uppercase tracking-wider text-yellow-200/80">
+            Certifications
+        </h3>
+        <ul class="flex flex-wrap gap-2">
+            {
+                CERTIFICATIONS.map((cert) => (
+                    <li>
+                        <a
+                            href={cert.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-gray-800/60 px-3 py-1 text-sm text-gray-200 transition hover:border-yellow-400/40 hover:bg-gray-700/60 focus:outline-none focus-visible:ring focus-visible:ring-yellow-500/80 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-950"
+                        >
+                            <span class="text-white">{cert.name}</span>
+                            <span class="text-white/60">· {cert.issuer}</span>
+                            <span aria-hidden="true" class="text-white/40">↗</span>
+                        </a>
+                    </li>
+                ))
+            }
+        </ul>
+    </div>
+</div>
